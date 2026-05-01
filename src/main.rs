@@ -33,11 +33,11 @@ fn main() {
         .add_plugins(LdtkPlugin)
         .init_state::<GameState>()
         .add_loading_state(
-            LoadingState::new(GameState::Loading)
-                .continue_to_state(GameState::Playing)
+            LoadingState::new(GameState::LoadingAssets)
+                .continue_to_state(GameState::LoadingLevel)
                 .load_collection::<Tileset>(),
         )
-        .add_systems(OnEnter(GameState::Playing), setup)
+        .add_systems(OnEnter(GameState::LoadingLevel), setup)
         .init_resource::<PlayerEntrypoint>()
         .insert_resource(ClearColor(Color::BLACK))
         .insert_resource(LevelSelection::Identifier("Start_House".to_string()))
@@ -48,7 +48,8 @@ fn main() {
         .register_ldtk_entity::<PlayerBundle>("Player")
         .register_ldtk_entity::<DoorBundle>("Door")
         .register_ldtk_entity::<NpcBundle>("NPC")
-        .add_systems(Update, setup_grid.run_if(in_state(GameState::Playing)))
+        .add_systems(Update, setup_grid.run_if(in_state(GameState::LoadingLevel)))
+        .add_systems(Update, move_player.run_if(in_state(GameState::Playing)))
         .run();
 }
 

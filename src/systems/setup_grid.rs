@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_ecs_ldtk::{prelude::*, utils::grid_coords_to_translation};
 
-use crate::{Door, Grid, GridCell, Npc, Player, PlayerEntrypoint, TILE_SIZE};
+use crate::{Door, GameState, Grid, GridCell, Npc, Player, PlayerEntrypoint, TILE_SIZE};
 
 pub fn setup_grid(
     mut commands: Commands,
@@ -13,6 +13,7 @@ pub fn setup_grid(
     player_cells: Query<(Entity, &GridCoords), With<Player>>,
     ldtk_project_entities: Query<&LdtkProjectHandle>,
     ldtk_project_assets: Res<Assets<LdtkProject>>,
+    mut next_state: ResMut<NextState<GameState>>,
 ) -> Result {
     for level_event in level_messages.read() {
         if let LevelEvent::Spawned(level_iid) = level_event {
@@ -57,7 +58,10 @@ pub fn setup_grid(
             }
 
             commands.insert_resource(grid);
+
+            next_state.set(GameState::Playing);
         }
     }
+
     Ok(())
 }
