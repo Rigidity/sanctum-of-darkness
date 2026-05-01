@@ -664,9 +664,9 @@
 							"height": 12,
 							"defUid": 14,
 							"px": [210,78],
-							"fieldInstances": [{ "__identifier": "ID", "__type": "String", "__value": "savior", "__tile": null, "defUid": 15, "realEditorValues": [{
+							"fieldInstances": [{ "__identifier": "ID", "__type": "String", "__value": "Savior", "__tile": null, "defUid": 15, "realEditorValues": [{
 								"id": "V_String",
-								"params": ["savior"]
+								"params": ["Savior"]
 							}] }],
 							"__worldX": 210,
 							"__worldY": 78
@@ -686,6 +686,25 @@
 							"fieldInstances": [],
 							"__worldX": 42,
 							"__worldY": 54
+						},
+						{
+							"__identifier": "NPC",
+							"__grid": [12,7],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": null,
+							"__smartColor": "#5243D7",
+							"iid": "79d8c2e0-21a0-11f1-9a94-3927f675b934",
+							"width": 12,
+							"height": 12,
+							"defUid": 14,
+							"px": [150,90],
+							"fieldInstances": [{ "__identifier": "ID", "__type": "String", "__value": "SaviorDog", "__tile": null, "defUid": 15, "realEditorValues": [{
+								"id": "V_String",
+								"params": ["SaviorDog"]
+							}] }],
+							"__worldX": 150,
+							"__worldY": 90
 						}
 					]
 				}

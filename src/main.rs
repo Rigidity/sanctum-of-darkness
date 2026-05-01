@@ -1,6 +1,6 @@
-mod entities;
+mod components;
 
-pub use entities::*;
+pub use components::*;
 
 use bevy::{prelude::*, window::WindowResolution};
 use bevy_ecs_ldtk::prelude::*;
@@ -24,7 +24,7 @@ fn main() {
         .add_plugins(LdtkPlugin)
         .add_systems(Startup, setup)
         .insert_resource(ClearColor(Color::BLACK))
-        .insert_resource(LevelSelection::index(0))
+        .insert_resource(LevelSelection::Identifier("Start_House".to_string()))
         .register_ldtk_entity::<SpawnerBundle>("Spawner")
         .run();
 }
