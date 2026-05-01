@@ -148,7 +148,7 @@
 		}
 	], "entities": [
 		{
-			"identifier": "Spawn",
+			"identifier": "Spawner",
 			"uid": 16,
 			"tags": [],
 			"exportToToc": false,
@@ -672,7 +672,7 @@
 							"__worldY": 78
 						},
 						{
-							"__identifier": "Spawn",
+							"__identifier": "Spawner",
 							"__grid": [3,4],
 							"__pivot": [0.5,0.5],
 							"__tags": [],

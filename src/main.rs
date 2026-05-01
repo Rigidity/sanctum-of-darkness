@@ -1,3 +1,7 @@
+mod entities;
+
+pub use entities::*;
+
 use bevy::{prelude::*, window::WindowResolution};
 use bevy_ecs_ldtk::prelude::*;
 use bevy_modern_pixel_camera::prelude::*;
@@ -21,6 +25,7 @@ fn main() {
         .add_systems(Startup, setup)
         .insert_resource(ClearColor(Color::BLACK))
         .insert_resource(LevelSelection::index(0))
+        .register_ldtk_entity::<SpawnerBundle>("Spawner")
         .run();
 }
 
