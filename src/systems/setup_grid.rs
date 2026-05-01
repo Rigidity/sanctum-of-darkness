@@ -1,12 +1,16 @@
 use bevy::prelude::*;
-use bevy_ecs_ldtk::prelude::*;
+use bevy_ecs_ldtk::{prelude::*, utils::grid_coords_to_translation};
 
-use crate::{Grid, GridCell, Solid, TILE_SIZE};
+use crate::{Door, Grid, GridCell, Npc, Player, PlayerEntrypoint, TILE_SIZE};
 
 pub fn setup_grid(
     mut commands: Commands,
     mut level_messages: MessageReader<LevelEvent>,
-    solid_cells: Query<&GridCoords, With<Solid>>,
+    player_entrypoint: Res<PlayerEntrypoint>,
+    int_grid_cells: Query<(&IntGridCell, &GridCoords)>,
+    door_cells: Query<(Entity, &GridCoords), With<Door>>,
+    npc_cells: Query<(Entity, &GridCoords), With<Npc>>,
+    player_cells: Query<(Entity, &GridCoords), With<Player>>,
     ldtk_project_entities: Query<&LdtkProjectHandle>,
     ldtk_project_assets: Res<Assets<LdtkProject>>,
 ) -> Result {
@@ -19,11 +23,38 @@ pub fn setup_grid(
 
             let mut grid = Grid::new(level.px_wid / TILE_SIZE.x, level.px_hei / TILE_SIZE.y);
 
-            for solid_cell in solid_cells.iter() {
-                grid.set(*solid_cell, GridCell::Solid);
+            for (cell, coords) in int_grid_cells.iter() {
+                let cell = match cell.value {
+                    1 => GridCell::Solid,
+                    2 => GridCell::Skip,
+                    _ => continue,
+                };
+                grid.set(*coords, cell);
             }
 
-            println!("Grid: {grid:#?}");
+            for (entity, coords) in door_cells.iter() {
+                grid.set(*coords, GridCell::Door(entity));
+            }
+
+            for (entity, coords) in npc_cells.iter() {
+                grid.set(*coords, GridCell::Npc(entity));
+            }
+
+            for (entity, coords) in player_cells.iter() {
+                let coords = match *player_entrypoint {
+                    PlayerEntrypoint::Spawner => *coords,
+                    PlayerEntrypoint::Door(_) => todo!(),
+                };
+
+                let translation = grid_coords_to_translation(coords, TILE_SIZE);
+
+                commands.entity(entity).insert((
+                    coords,
+                    Transform::from_xyz(translation.x, translation.y, 0.0),
+                ));
+
+                grid.set(coords, GridCell::Player(entity));
+            }
 
             commands.insert_resource(grid);
         }

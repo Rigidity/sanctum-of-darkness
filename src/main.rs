@@ -45,11 +45,10 @@ fn main() {
             int_grid_rendering: IntGridRendering::Invisible,
             ..default()
         })
-        .register_ldtk_entity::<SpawnerBundle>("Spawner")
+        .register_ldtk_entity::<PlayerBundle>("Player")
         .register_ldtk_entity::<DoorBundle>("Door")
         .register_ldtk_entity::<NpcBundle>("NPC")
-        .register_ldtk_int_cell::<SolidBundle>(1)
-        .add_observer(spawn_player)
+        .add_systems(Update, setup_grid.run_if(in_state(GameState::Playing)))
         .run();
 }
 

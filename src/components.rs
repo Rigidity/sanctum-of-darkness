@@ -2,24 +2,15 @@ use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
 
 #[derive(Default, Component)]
-pub struct Spawner;
-
-#[derive(Default, Bundle, LdtkEntity)]
-pub struct SpawnerBundle {
-    pub spawner: Spawner,
-    #[grid_coords]
-    pub grid_coords: GridCoords,
-}
-
-#[derive(Component)]
 pub struct Player;
 
-#[derive(Default, Component)]
-pub struct Solid;
-
-#[derive(Default, Bundle, LdtkIntCell)]
-pub struct SolidBundle {
-    pub solid: Solid,
+#[derive(Default, Bundle, LdtkEntity)]
+pub struct PlayerBundle {
+    pub player: Player,
+    #[sprite_sheet]
+    pub sprite_sheet: Sprite,
+    #[grid_coords]
+    pub grid_coords: GridCoords,
 }
 
 #[derive(Default, Component)]

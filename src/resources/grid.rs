@@ -29,6 +29,8 @@ impl Grid {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum GridCell {
     Solid,
-    Npc(Entity),
+    Skip,
     Door(Entity),
+    Npc(Entity),
+    Player(Entity),
 }
