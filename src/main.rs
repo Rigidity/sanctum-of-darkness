@@ -41,7 +41,14 @@ fn main() {
         .init_resource::<PlayerEntrypoint>()
         .insert_resource(ClearColor(Color::BLACK))
         .insert_resource(LevelSelection::Identifier("Start_House".to_string()))
+        .insert_resource(LdtkSettings {
+            int_grid_rendering: IntGridRendering::Invisible,
+            ..default()
+        })
         .register_ldtk_entity::<SpawnerBundle>("Spawner")
+        .register_ldtk_entity::<DoorBundle>("Door")
+        .register_ldtk_entity::<NpcBundle>("NPC")
+        .register_ldtk_int_cell::<SolidBundle>(1)
         .add_observer(spawn_player)
         .run();
 }

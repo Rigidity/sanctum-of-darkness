@@ -7,7 +7,7 @@ pub fn spawn_player(
     on: On<Add, Spawner>,
     mut commands: Commands,
     query: Query<&GridCoords, With<Spawner>>,
-) -> Result<()> {
+) -> Result {
     let spawner_coords = query.get(on.entity)?;
 
     let translation = grid_coords_to_translation(*spawner_coords, TILE_SIZE);
