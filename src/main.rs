@@ -1,10 +1,19 @@
 mod components;
+mod resources;
+mod state;
+mod systems;
 
 pub use components::*;
+pub use resources::*;
+pub use state::*;
+pub use systems::*;
 
 use bevy::{prelude::*, window::WindowResolution};
+use bevy_asset_loader::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
 use bevy_modern_pixel_camera::prelude::*;
+
+pub const TILE_SIZE: IVec2 = IVec2::new(12, 12);
 
 fn main() {
     App::new()
@@ -22,10 +31,18 @@ fn main() {
         )
         .add_plugins(PixelCameraPlugin)
         .add_plugins(LdtkPlugin)
-        .add_systems(Startup, setup)
+        .init_state::<GameState>()
+        .add_loading_state(
+            LoadingState::new(GameState::Loading)
+                .continue_to_state(GameState::Playing)
+                .load_collection::<Tileset>(),
+        )
+        .add_systems(OnEnter(GameState::Playing), setup)
+        .init_resource::<PlayerEntrypoint>()
         .insert_resource(ClearColor(Color::BLACK))
         .insert_resource(LevelSelection::Identifier("Start_House".to_string()))
         .register_ldtk_entity::<SpawnerBundle>("Spawner")
+        .add_observer(spawn_player)
         .run();
 }
 
