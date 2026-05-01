@@ -7,9 +7,9 @@ pub fn move_player(
     mut commands: Commands,
     mut grid: ResMut<Grid>,
     keyboard_input: Res<ButtonInput<KeyCode>>,
-    mut player_query: Query<(&mut Sprite, &GridCoords), With<Player>>,
+    mut player_query: Query<(&mut Sprite, &GridCoords, &mut Direction), With<Player>>,
 ) -> Result {
-    let (mut sprite, &grid_coords) = player_query.single_mut()?;
+    let (mut sprite, &grid_coords, mut player_direction) = player_query.single_mut()?;
 
     let up_pressed = keyboard_input.just_pressed(KeyCode::KeyW);
     let down_pressed = keyboard_input.just_pressed(KeyCode::KeyS);
@@ -34,8 +34,11 @@ pub fn move_player(
         _ => {}
     }
 
+    *player_direction = direction;
+
     for movement in grid.move_entity(grid_coords, direction).unwrap_or_default() {
         let translation = grid_coords_to_translation(movement.new_coords, TILE_SIZE);
+
         commands.entity(movement.entity).insert((
             movement.new_coords,
             Transform::from_xyz(translation.x, translation.y, 0.0),

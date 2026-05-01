@@ -1,6 +1,8 @@
 use bevy::{platform::collections::HashMap, prelude::*};
 use bevy_ecs_ldtk::GridCoords;
 
+use crate::Direction;
+
 #[derive(Debug, Resource)]
 pub struct Grid {
     width: i32,
@@ -92,14 +94,6 @@ pub enum GridCell {
     Door(Entity),
     Npc(Entity),
     Player(Entity),
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
