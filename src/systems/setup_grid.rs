@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_ecs_ldtk::{prelude::*, utils::grid_coords_to_translation};
 
-use crate::{Door, GameState, Grid, GridCell, Npc, Player, PlayerEntrypoint, TILE_SIZE};
+use crate::{Door, GameState, Grid, GridCell, Movable, Npc, Player, PlayerEntrypoint, TILE_SIZE};
 
 pub fn setup_grid(
     mut commands: Commands,
@@ -10,6 +10,7 @@ pub fn setup_grid(
     int_grid_cells: Query<(&IntGridCell, &GridCoords)>,
     door_cells: Query<(Entity, &GridCoords), With<Door>>,
     npc_cells: Query<(Entity, &GridCoords), With<Npc>>,
+    movable_cells: Query<(Entity, &GridCoords), With<Movable>>,
     player_cells: Query<(Entity, &GridCoords), With<Player>>,
     ldtk_project_entities: Query<&LdtkProjectHandle>,
     ldtk_project_assets: Res<Assets<LdtkProject>>,
@@ -39,6 +40,10 @@ pub fn setup_grid(
 
             for (entity, coords) in npc_cells.iter() {
                 grid.set(*coords, GridCell::Npc(entity));
+            }
+
+            for (entity, coords) in movable_cells.iter() {
+                grid.set(*coords, GridCell::Movable(entity));
             }
 
             for (entity, coords) in player_cells.iter() {

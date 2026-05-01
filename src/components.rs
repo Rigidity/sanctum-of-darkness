@@ -36,3 +36,15 @@ pub struct NpcBundle {
     #[grid_coords]
     pub grid_coords: GridCoords,
 }
+
+#[derive(Default, Component)]
+pub struct Movable;
+
+#[derive(Default, Bundle, LdtkEntity)]
+pub struct MovableBundle {
+    pub movable: Movable,
+    #[sprite_sheet]
+    pub sprite_sheet: Sprite,
+    #[grid_coords]
+    pub grid_coords: GridCoords,
+}

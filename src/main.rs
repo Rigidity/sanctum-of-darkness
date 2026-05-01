@@ -48,6 +48,7 @@ fn main() {
         .register_ldtk_entity::<PlayerBundle>("Player")
         .register_ldtk_entity::<DoorBundle>("Door")
         .register_ldtk_entity::<NpcBundle>("NPC")
+        .register_ldtk_entity::<MovableBundle>("Movable")
         .add_systems(Update, setup_grid.run_if(in_state(GameState::LoadingLevel)))
         .add_systems(Update, move_player.run_if(in_state(GameState::Playing)))
         .run();

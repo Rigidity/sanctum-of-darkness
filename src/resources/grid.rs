@@ -58,7 +58,7 @@ impl Grid {
             Some(GridCell::Player(_) | GridCell::Npc(_) | GridCell::Solid | GridCell::Door(_)) => {
                 None
             }
-            Some(GridCell::Movable(entity)) => {
+            Some(GridCell::Movable(_)) => {
                 let mut movements = self.move_entity(target_coords, dir)?;
 
                 self.remove(current_coords);
