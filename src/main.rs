@@ -1,20 +1,18 @@
 mod assets;
 mod components;
 mod json5_asset;
+mod plugins;
 mod resources;
-mod state;
 mod systems;
 
 pub use assets::*;
 pub use components::*;
 pub use json5_asset::*;
+pub use plugins::*;
 pub use resources::*;
-pub use state::*;
 pub use systems::*;
 
 use bevy::{prelude::*, window::WindowResolution};
-use bevy_asset_loader::prelude::*;
-use bevy_ecs_ldtk::prelude::*;
 use bevy_modern_pixel_camera::prelude::*;
 
 pub const TILE_SIZE: IVec2 = IVec2::new(12, 12);
@@ -34,34 +32,14 @@ fn main() {
                 .set(ImagePlugin::default_nearest()),
         )
         .add_plugins(PixelCameraPlugin)
-        .add_plugins(LdtkPlugin)
-        .init_state::<GameState>()
-        .init_asset::<NpcDef>()
-        .init_asset_loader::<Json5AssetLoader<NpcDef>>()
-        .add_loading_state(
-            LoadingState::new(GameState::LoadingAssets)
-                .continue_to_state(GameState::LoadingLevel)
-                .load_collection::<LoadedAssets>(),
-        )
-        .add_systems(OnEnter(GameState::LoadingLevel), setup)
-        .init_resource::<PlayerEntrypoint>()
+        .add_plugins((LoaderPlugin, LevelPlugin))
+        .add_systems(Startup, setup_camera)
         .insert_resource(ClearColor(Color::BLACK))
-        .insert_resource(LevelSelection::Identifier("Start_House".to_string()))
-        .insert_resource(LdtkSettings {
-            int_grid_rendering: IntGridRendering::Invisible,
-            ..default()
-        })
-        .register_ldtk_entity::<PlayerBundle>("Player")
-        .register_ldtk_entity::<DoorBundle>("Door")
-        .register_ldtk_entity::<NpcBundle>("NPC")
-        .register_ldtk_entity::<MovableBundle>("Movable")
-        .add_systems(OnEnter(GameState::LoadingLevel), setup_registry)
-        .add_systems(Update, setup_grid.run_if(in_state(GameState::LoadingLevel)))
-        .add_systems(Update, move_player.run_if(in_state(GameState::Playing)))
+        .add_systems(Update, move_player.run_if(in_state(LevelState::Playing)))
         .run();
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup_camera(mut commands: Commands) {
     commands.spawn((
         Camera2d,
         Msaa::Off,
@@ -72,9 +50,4 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         },
         PixelViewport,
     ));
-
-    commands.spawn(LdtkWorldBundle {
-        ldtk_handle: asset_server.load("tilemap.ldtk").into(),
-        ..default()
-    });
 }

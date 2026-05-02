@@ -1,9 +1,8 @@
 use bevy::prelude::*;
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, States)]
-pub enum GameState {
+pub enum AssetState {
     #[default]
-    LoadingAssets,
-    LoadingLevel,
-    Playing,
+    Loading,
+    Ready,
 }
