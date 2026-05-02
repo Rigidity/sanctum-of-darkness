@@ -1,8 +1,10 @@
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 
+use crate::NpcDef;
+
 #[derive(AssetCollection, Resource)]
-pub struct Tileset {
+pub struct LoadedAssets {
     #[asset(texture_atlas_layout(
         tile_size_x = 12,
         tile_size_y = 12,
@@ -16,4 +18,6 @@ pub struct Tileset {
     pub layout: Handle<TextureAtlasLayout>,
     #[asset(path = "tileset.png")]
     pub sprite: Handle<Image>,
+    #[asset(path = "npcs", collection(typed))]
+    pub npcs: Vec<Handle<NpcDef>>,
 }

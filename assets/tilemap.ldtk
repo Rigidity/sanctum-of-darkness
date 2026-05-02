@@ -884,9 +884,9 @@
 							"defUid": 14,
 							"px": [210,78],
 							"fieldInstances": [
-								{ "__identifier": "ID", "__type": "String", "__value": "Savior", "__tile": null, "defUid": 15, "realEditorValues": [{
+								{ "__identifier": "ID", "__type": "String", "__value": "savior", "__tile": null, "defUid": 15, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Savior"]
+									"params": ["savior"]
 								}] },
 								{ "__identifier": "Tile", "__type": "Tile", "__value": { "tilesetUid": 1, "x": 1353, "y": 66, "w": 12, "h": 12 }, "__tile": { "tilesetUid": 1, "x": 1353, "y": 66, "w": 12, "h": 12 }, "defUid": 20, "realEditorValues": [{
 									"id": "V_String",
@@ -910,9 +910,9 @@
 							"defUid": 14,
 							"px": [150,90],
 							"fieldInstances": [
-								{ "__identifier": "ID", "__type": "String", "__value": "SaviorDog", "__tile": null, "defUid": 15, "realEditorValues": [{
+								{ "__identifier": "ID", "__type": "String", "__value": "savior_dog", "__tile": null, "defUid": 15, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["SaviorDog"]
+									"params": ["savior_dog"]
 								}] },
 								{ "__identifier": "Tile", "__type": "Tile", "__value": { "tilesetUid": 1, "x": 1, "y": 183, "w": 12, "h": 12 }, "__tile": { "tilesetUid": 1, "x": 1, "y": 183, "w": 12, "h": 12 }, "defUid": 20, "realEditorValues": [{
 									"id": "V_String",
@@ -1200,9 +1200,9 @@
 							"defUid": 14,
 							"px": [198,78],
 							"fieldInstances": [
-								{ "__identifier": "ID", "__type": "String", "__value": "Gardener", "__tile": null, "defUid": 15, "realEditorValues": [{
+								{ "__identifier": "ID", "__type": "String", "__value": "gardener", "__tile": null, "defUid": 15, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Gardener"]
+									"params": ["gardener"]
 								}] },
 								{ "__identifier": "Tile", "__type": "Tile", "__value": { "tilesetUid": 1, "x": 1431, "y": 53, "w": 12, "h": 12 }, "__tile": { "tilesetUid": 1, "x": 1431, "y": 53, "w": 12, "h": 12 }, "defUid": 20, "realEditorValues": [{
 									"id": "V_String",
@@ -1226,9 +1226,9 @@
 							"defUid": 14,
 							"px": [42,114],
 							"fieldInstances": [
-								{ "__identifier": "ID", "__type": "String", "__value": "Rascal", "__tile": null, "defUid": 15, "realEditorValues": [{
+								{ "__identifier": "ID", "__type": "String", "__value": "rascal", "__tile": null, "defUid": 15, "realEditorValues": [{
 									"id": "V_String",
-									"params": ["Rascal"]
+									"params": ["rascal"]
 								}] },
 								{ "__identifier": "Tile", "__type": "Tile", "__value": { "tilesetUid": 1, "x": 1353, "y": 105, "w": 12, "h": 12 }, "__tile": { "tilesetUid": 1, "x": 1353, "y": 105, "w": 12, "h": 12 }, "defUid": 20, "realEditorValues": [{
 									"id": "V_String",

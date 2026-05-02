@@ -1,0 +1,10 @@
+{
+    "id": "savior",
+    "name": "Harold",
+    "dialogue": {
+        "lines": [
+            "Oh good, you're awake. You've been out for a while.",
+            "You should go talk to Marie, she said she has something for you.",
+        ],
+    },
+}

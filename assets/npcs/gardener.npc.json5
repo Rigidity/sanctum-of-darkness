@@ -1,0 +1,9 @@
+{
+    "id": "gardener",
+    "name": "Lenny",
+    "dialogue": {
+        "lines": [
+            "These weeds are getting out of control...",
+        ],
+    },
+}

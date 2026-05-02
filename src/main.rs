@@ -1,9 +1,13 @@
+mod assets;
 mod components;
+mod json5_asset;
 mod resources;
 mod state;
 mod systems;
 
+pub use assets::*;
 pub use components::*;
+pub use json5_asset::*;
 pub use resources::*;
 pub use state::*;
 pub use systems::*;
@@ -32,10 +36,12 @@ fn main() {
         .add_plugins(PixelCameraPlugin)
         .add_plugins(LdtkPlugin)
         .init_state::<GameState>()
+        .init_asset::<NpcDef>()
+        .init_asset_loader::<Json5AssetLoader<NpcDef>>()
         .add_loading_state(
             LoadingState::new(GameState::LoadingAssets)
                 .continue_to_state(GameState::LoadingLevel)
-                .load_collection::<Tileset>(),
+                .load_collection::<LoadedAssets>(),
         )
         .add_systems(OnEnter(GameState::LoadingLevel), setup)
         .init_resource::<PlayerEntrypoint>()
@@ -49,6 +55,7 @@ fn main() {
         .register_ldtk_entity::<DoorBundle>("Door")
         .register_ldtk_entity::<NpcBundle>("NPC")
         .register_ldtk_entity::<MovableBundle>("Movable")
+        .add_systems(OnEnter(GameState::LoadingLevel), setup_registry)
         .add_systems(Update, setup_grid.run_if(in_state(GameState::LoadingLevel)))
         .add_systems(Update, move_player.run_if(in_state(GameState::Playing)))
         .run();

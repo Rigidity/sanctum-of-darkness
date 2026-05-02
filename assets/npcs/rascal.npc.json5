@@ -1,0 +1,10 @@
+{
+    "id": "rascal",
+    "name": "Toby",
+    "dialogue": {
+        "lines": [
+            "Who are you?",
+            "Well, it doesn't matter much anyways.",
+        ],
+    },
+}

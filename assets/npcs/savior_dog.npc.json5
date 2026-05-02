@@ -1,0 +1,10 @@
+{
+    "id": "savior_dog",
+    "name": "Buddy",
+    "dialogue": {
+        "lines": [
+            "Woof woof!",
+            "Ruff ruff!",
+        ],
+    },
+}
