@@ -1,7 +1,10 @@
 use bevy::{platform::collections::HashMap, prelude::*};
 use bevy_ecs_ldtk::{prelude::*, utils::grid_coords_to_translation};
 
-use crate::{Direction, Door, LevelState, Movable, Npc, Player, PlayerEntrypoint, TILE_SIZE};
+use crate::{
+    Direction, Door, LevelState, Movable, Npc, Player, PlayerEntrypoint, TILE_SIZE,
+    translate_coords,
+};
 
 #[derive(Debug, Resource)]
 pub struct Grid {
@@ -102,21 +105,12 @@ pub struct Movement {
     pub new_coords: GridCoords,
 }
 
-fn translate_coords(coords: GridCoords, dir: Direction) -> GridCoords {
-    match dir {
-        Direction::Up => coords + GridCoords::new(0, 1),
-        Direction::Down => coords + GridCoords::new(0, -1),
-        Direction::Left => coords + GridCoords::new(-1, 0),
-        Direction::Right => coords + GridCoords::new(1, 0),
-    }
-}
-
 pub fn setup_grid(
     mut commands: Commands,
     mut level_messages: MessageReader<LevelEvent>,
     player_entrypoint: Res<PlayerEntrypoint>,
     int_grid_cells: Query<(&IntGridCell, &GridCoords)>,
-    door_cells: Query<(Entity, &GridCoords), With<Door>>,
+    door_cells: Query<(Entity, &Door, &GridCoords)>,
     npc_cells: Query<(Entity, &GridCoords), With<Npc>>,
     movable_cells: Query<(Entity, &GridCoords), With<Movable>>,
     player_cells: Query<(Entity, &GridCoords), With<Player>>,
@@ -142,8 +136,12 @@ pub fn setup_grid(
                 grid.set(*coords, cell);
             }
 
-            for (entity, coords) in door_cells.iter() {
+            let mut door_coords = HashMap::new();
+
+            for (entity, door, coords) in door_cells.iter() {
                 grid.set(*coords, GridCell::Door(entity));
+
+                door_coords.insert(door.index, *coords);
             }
 
             for (entity, coords) in npc_cells.iter() {
@@ -157,7 +155,21 @@ pub fn setup_grid(
             for (entity, coords) in player_cells.iter() {
                 let coords = match *player_entrypoint {
                     PlayerEntrypoint::Spawner => *coords,
-                    PlayerEntrypoint::Door(_) => todo!(),
+                    PlayerEntrypoint::Door(index) => {
+                        let mut coords = *door_coords.get(&index).unwrap();
+
+                        if coords.x == 0 {
+                            coords.x += 1;
+                        } else if coords.x == grid.width - 1 {
+                            coords.x -= 1;
+                        } else if coords.y == 0 {
+                            coords.y += 1;
+                        } else if coords.y == grid.height - 1 {
+                            coords.y -= 1;
+                        }
+
+                        coords
+                    }
                 };
 
                 let translation = grid_coords_to_translation(coords, TILE_SIZE);

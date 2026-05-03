@@ -1,16 +1,6 @@
-mod assets;
-mod components;
-mod json5_asset;
 mod plugins;
-mod resources;
-mod systems;
 
-pub use assets::*;
-pub use components::*;
-pub use json5_asset::*;
 pub use plugins::*;
-pub use resources::*;
-pub use systems::*;
 
 use bevy::{prelude::*, window::WindowResolution};
 use bevy_modern_pixel_camera::prelude::*;
@@ -35,7 +25,6 @@ fn main() {
         .add_plugins((LoaderPlugin, LevelPlugin))
         .add_systems(Startup, setup_camera)
         .insert_resource(ClearColor(Color::BLACK))
-        .add_systems(Update, move_player.run_if(in_state(LevelState::Playing)))
         .run();
 }
 

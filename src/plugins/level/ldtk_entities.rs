@@ -1,14 +1,7 @@
 use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Component)]
-pub enum Direction {
-    Up,
-    Down,
-    Left,
-    #[default]
-    Right,
-}
+use crate::Direction;
 
 #[derive(Default, Component)]
 pub struct Player;

@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
+use bevy_ecs_ldtk::prelude::*;
 
 use crate::NpcDef;
 
@@ -20,4 +21,6 @@ pub struct LoadedAssets {
     pub sprite: Handle<Image>,
     #[asset(path = "npcs", collection(typed))]
     pub npcs: Vec<Handle<NpcDef>>,
+    #[asset(path = "tilemap.ldtk")]
+    pub tilemap: Handle<LdtkProject>,
 }
