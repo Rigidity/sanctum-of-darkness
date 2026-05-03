@@ -1,9 +1,7 @@
 use bevy::{platform::collections::HashMap, prelude::*};
 use bevy_ecs_ldtk::{prelude::*, utils::grid_coords_to_translation};
 
-use crate::{
-    Direction, Door, Grid, GridCell, Npc, Player, SwitchLevel, TILE_SIZE, translate_coords,
-};
+use crate::{Direction, Door, Grid, GridCell, Player, SwitchLevel, TILE_SIZE, translate_coords};
 
 pub fn move_player(
     mut commands: Commands,
@@ -53,7 +51,6 @@ pub fn move_player(
 #[derive(Debug, Clone, Copy)]
 enum PossibleInteraction {
     Door(Entity),
-    Npc(Entity),
 }
 
 pub fn trigger_interactions(
@@ -62,7 +59,6 @@ pub fn trigger_interactions(
     grid: Res<Grid>,
     player_query: Query<(&GridCoords, &Direction), With<Player>>,
     door_query: Query<&Door>,
-    npc_query: Query<&Npc>,
 ) -> Result {
     if !keyboard_input.just_pressed(KeyCode::Space) {
         return Ok(());
@@ -75,14 +71,8 @@ pub fn trigger_interactions(
     for direction in Direction::all() {
         let target_coords = translate_coords(*grid_coords, direction);
 
-        match grid.get(target_coords) {
-            Some(GridCell::Door(entity)) => {
-                possible_interactions.insert(direction, PossibleInteraction::Door(entity));
-            }
-            Some(GridCell::Npc(entity)) => {
-                possible_interactions.insert(direction, PossibleInteraction::Npc(entity));
-            }
-            _ => {}
+        if let Some(GridCell::Door(entity)) = grid.get(target_coords) {
+            possible_interactions.insert(direction, PossibleInteraction::Door(entity));
         }
     }
 
@@ -100,9 +90,6 @@ pub fn trigger_interactions(
                 room: door.room.clone(),
                 target_door: door.target,
             });
-        }
-        Some(PossibleInteraction::Npc(entity)) => {
-            todo!();
         }
         None => {}
     }
