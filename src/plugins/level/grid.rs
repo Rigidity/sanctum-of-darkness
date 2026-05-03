@@ -113,7 +113,7 @@ pub fn setup_grid(
     door_cells: Query<(Entity, &Door, &GridCoords)>,
     npc_cells: Query<(Entity, &GridCoords), With<Npc>>,
     movable_cells: Query<(Entity, &GridCoords), With<Movable>>,
-    player_cells: Query<(Entity, &GridCoords), With<Player>>,
+    mut player_cells: Query<(Entity, &GridCoords, &mut Sprite), With<Player>>,
     ldtk_project_entities: Query<&LdtkProjectHandle>,
     ldtk_project_assets: Res<Assets<LdtkProject>>,
     mut next_state: ResMut<NextState<LevelState>>,
@@ -152,11 +152,17 @@ pub fn setup_grid(
                 grid.set(*coords, GridCell::Movable(entity));
             }
 
-            for (entity, coords) in player_cells.iter() {
+            for (entity, coords, mut sprite) in &mut player_cells {
+                let mut facing_direction = Direction::Right;
+
                 let coords = match *player_entrypoint {
                     PlayerEntrypoint::Spawner => *coords,
-                    PlayerEntrypoint::Door(index) => {
-                        let mut coords = *door_coords.get(&index).unwrap();
+                    PlayerEntrypoint::Door {
+                        target_door,
+                        direction,
+                        flip_x,
+                    } => {
+                        let mut coords = *door_coords.get(&target_door).unwrap();
 
                         if coords.x == 0 {
                             coords.x += 1;
@@ -168,6 +174,9 @@ pub fn setup_grid(
                             coords.y -= 1;
                         }
 
+                        facing_direction = direction;
+                        sprite.flip_x = flip_x;
+
                         coords
                     }
                 };
@@ -176,6 +185,7 @@ pub fn setup_grid(
 
                 commands.entity(entity).insert((
                     coords,
+                    facing_direction,
                     Transform::from_xyz(translation.x, translation.y, 0.0),
                 ));
 

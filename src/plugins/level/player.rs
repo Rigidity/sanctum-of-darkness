@@ -57,14 +57,14 @@ pub fn trigger_interactions(
     mut commands: Commands,
     keyboard_input: Res<ButtonInput<KeyCode>>,
     grid: Res<Grid>,
-    player_query: Query<(&GridCoords, &Direction), With<Player>>,
+    player_query: Query<(&GridCoords, &Direction, &Sprite), With<Player>>,
     door_query: Query<&Door>,
 ) -> Result {
     if !keyboard_input.just_pressed(KeyCode::Space) {
         return Ok(());
     }
 
-    let (grid_coords, facing_direction) = player_query.single()?;
+    let (grid_coords, facing_direction, sprite) = player_query.single()?;
 
     let mut possible_interactions = HashMap::new();
 
@@ -89,6 +89,8 @@ pub fn trigger_interactions(
             commands.trigger(SwitchLevel {
                 room: door.room.clone(),
                 target_door: door.target,
+                direction: *facing_direction,
+                flip_x: sprite.flip_x,
             });
         }
         None => {}

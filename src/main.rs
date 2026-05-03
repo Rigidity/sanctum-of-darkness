@@ -14,7 +14,7 @@ fn main() {
                 .set(WindowPlugin {
                     primary_window: Some(Window {
                         title: "Sanctum of Darkness".to_string(),
-                        resolution: WindowResolution::new(1600, 900),
+                        resolution: WindowResolution::new(1280, 720),
                         ..default()
                     }),
                     ..default()
@@ -32,7 +32,7 @@ fn setup_camera(mut commands: Commands) {
     commands.spawn((
         Camera2d,
         Msaa::Off,
-        Transform::from_xyz(150.0, 80.0, 0.0),
+        Transform::from_xyz(150.0, 84.0, 0.0),
         PixelZoom::FitSize {
             width: 320,
             height: 180,
